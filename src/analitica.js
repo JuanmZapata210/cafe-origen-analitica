@@ -91,5 +91,56 @@ function ventasPorCiudadM(ventas) {
         return ciudadVenta;
     }, {})
 }
-console.log("Las ventas por ciudad usando REDUCE es: ", ventasPorCiudadM(ventas))
+console.log("Las ventas por ciudad usando REDUCE es: ", ventasPorCiudadM(ventas), "\n")
+
+function cantidadProducto(venta) {
+    return venta.cantidad
+
+}
+function unidadesPorProducto(ventas) {
+    return ventas.reduce((ventaProducto, venta) => {
+        if (!ventaProducto[venta.producto]) {
+            ventaProducto[venta.producto] = 0
+        }
+        ventaProducto[venta.producto] += cantidadProducto(venta)
+        return ventaProducto
+    }, {})
+
+}
+console.log("La cantidad por producto es: ", unidadesPorProducto(ventas), "\n")
+
+function topProductosPorValor(ventas) {
+    const resultado = ventas.reduce((valorProductos, venta) => {
+        if (!valorProductos[venta.producto]) {
+            valorProductos[venta.producto] = 0
+        }
+        valorProductos[venta.producto] += valorVenta(venta)
+        return valorProductos
+    }, {})
+    return resultado
+}
+const valorProducto = topProductosPorValor(ventas)
+console.log("El valor por producto es: ", valorProducto, "\n")
+
+const ordenado = Object.entries(valorProducto).sort((a, b) => b[1] - a[1])
+
+function topProdValor(arregloordenado){
+    const top = arregloordenado.slice(0,3)
+    return top
+
+}
+const topProducto = topProdValor(ordenado)
+
+function topProductosPorValorOrdenado(orden) {
+    let resultado = {}
+    for (const element of orden) {
+        resultado[element[0]] = element[1];
+    }
+    return resultado
+
+}
+console.log("El top 3 de productos por su valor es: ", topProductosPorValorOrdenado(topProducto))
+
+
+
 
