@@ -142,6 +142,11 @@ function ventasDelDia(ventas) {
         if (!fechaVentas[venta.fecha]) {
             fechaVentas[venta.fecha] = 0
         }
+
+        if (venta.cantidad === 0) {
+            fechaVentas[venta.fecha] = "No hubieron ventas";
+            return fechaVentas;
+            }
         fechaVentas[venta.fecha] += venta.cantidad
         return fechaVentas
     }, {})
