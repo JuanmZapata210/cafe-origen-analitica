@@ -4,7 +4,7 @@ function valorVenta(venta) {
     return venta.precio * venta.cantidad;
 }
 const ventasTotales = ventas.map(v => valorVenta(v));
-console.log("Las ventas totales de cada uno son: ", ventasTotales, "\n");
+console.log("Las ventas totales de cada uno son: ", ventasTotales.map(v => v.toLocaleString("es-CO")), "\n")
 
 function totalVendido(ventas) {
     let total = 0
@@ -15,7 +15,7 @@ function totalVendido(ventas) {
     return total
 }
 const totalV = totalVendido(ventasTotales)
-console.log("El total vendido fue: ", totalV, "\n")
+console.log("El total vendido fue: ", totalV.toLocaleString("es-CO"), "\n")
 
 function unidadesVendidas(ventas) {
     let unidades = 0
@@ -70,7 +70,7 @@ function totalVendidoM(ventas) {
     return venta
 }
 const vendidoM = totalVendidoM(ventasTotales)
-console.log("el total usando REDUCE es", vendidoM, "\n")
+console.log("el total usando REDUCE es", vendidoM.toLocaleString("es-CO"), "\n")
 
 function unidadesVendidasM(ventas) {
     const unidades = ventas.reduce((acomulador, valor) => {
@@ -93,16 +93,12 @@ function ventasPorCiudadM(ventas) {
 }
 console.log("Las ventas por ciudad usando REDUCE es: ", ventasPorCiudadM(ventas), "\n")
 
-function cantidadProducto(venta) {
-    return venta.cantidad
-
-}
 function unidadesPorProducto(ventas) {
     return ventas.reduce((ventaProducto, venta) => {
         if (!ventaProducto[venta.producto]) {
             ventaProducto[venta.producto] = 0
         }
-        ventaProducto[venta.producto] += cantidadProducto(venta)
+        ventaProducto[venta.producto] += venta.cantidad
         return ventaProducto
     }, {})
 
@@ -120,12 +116,12 @@ function topProductosPorValor(ventas) {
     return resultado
 }
 const valorProducto = topProductosPorValor(ventas)
-console.log("El valor por producto es: ", valorProducto, "\n")
+console.log("El valor por producto es: ", valorProducto)
 
 const ordenado = Object.entries(valorProducto).sort((a, b) => b[1] - a[1])
 
-function topProdValor(arregloordenado){
-    const top = arregloordenado.slice(0,3)
+function topProdValor(arregloordenado) {
+    const top = arregloordenado.slice(0, 3)
     return top
 
 }
@@ -141,6 +137,14 @@ function topProductosPorValorOrdenado(orden) {
 }
 console.log("El top 3 de productos por su valor es: ", topProductosPorValorOrdenado(topProducto))
 
-
-
+function ventasDelDia(ventas) {
+    return ventas.reduce((fechaVentas, venta) => {
+        if (!fechaVentas[venta.fecha]) {
+            fechaVentas[venta.fecha] = 0
+        }
+        fechaVentas[venta.fecha] += venta.cantidad
+        return fechaVentas
+    }, {})
+}
+console.log("Cantidad de ventas por fecha", ventasDelDia(ventas))
 
