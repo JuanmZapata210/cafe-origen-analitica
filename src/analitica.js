@@ -52,16 +52,21 @@ function ticketPromedio(unidades, total) {
 const ticketProm = ticketPromedio(unidadesV, totalV)
 console.log("El promedio de ventas fue: ", ticketProm, "\n")
 
-function ventasPorCiudad(ventas) {
-    const ventasCiudad = {}
-    for (v of ventas) {
-        if (!ventasCiudad[v.ciudad]) { ventasCiudad[v.ciudad] = 0; }
-        ventasCiudad[v.ciudad] += valorVenta(v);
-    }
-
-    return ventasCiudad
+function ventasPorCiudad(ventas, city) {
+    const ciudadBuscada = city.trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+    return ventas.reduce((ciudad, venta) => {
+        let ciudadNormalizada = venta.ciudad.trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+        if (ciudadNormalizada === ciudadBuscada) {
+            if (!ciudad[ciudadNormalizada]) {
+                ciudad[ciudadNormalizada] = 0
+            }
+            ciudad[ciudadNormalizada] += valorVenta(venta)
+        }
+        return ciudad
+    }, {})
 }
-console.log("Las ventas por cada ciudad son: ", ventasPorCiudad(ventas), "\n")
+
+console.log("Las ventas por cada ciudad son: ", ventasPorCiudad(ventas,"Medellin"), "\n")
 
 function totalVendidoM(ventas) {
     const venta = ventas.reduce((acomulado, valor) => {
@@ -142,14 +147,21 @@ function ventasDelDia(ventas) {
         if (!fechaVentas[venta.fecha]) {
             fechaVentas[venta.fecha] = 0
         }
-
-        if (venta.cantidad === 0) {
-            fechaVentas[venta.fecha] = "No hubieron ventas";
-            return fechaVentas;
-            }
         fechaVentas[venta.fecha] += venta.cantidad
         return fechaVentas
     }, {})
 }
 console.log("Cantidad de ventas por fecha", ventasDelDia(ventas))
 
+function ventasValidas(ventas) {
+    return ventas.filter(v => v.cantidad > 0)
+}
+console.log(ventasValidas(ventas))
+
+module.exports = {
+    valorVenta, ventasTotales, totalVendido, unidadesVendidas, ventaMayor, ventasPorCiudad,
+    ticketPromedio, ventasPorCiudadM, unidadesPorProducto,
+    topProductosPorValor, topProdValor, topProductosPorValorOrdenado,
+    ventasDelDia, ventasValidas,
+    totalV, unidadesV, ordenado
+}
