@@ -17,6 +17,7 @@ const {
   totalV,
   unidadesV,
   ordenado,
+  ventasTotales,
 } = require("./analitica");
 
 console.log("==============================================================");
@@ -47,8 +48,9 @@ console.log();
 // ----------------------------------------------------------------------------
 // 3. AGRUPACIONES Y RANKINGS CON MÉTODOS DE ARREGLO
 // ----------------------------------------------------------------------------
-console.log("--- 3. AGRUPACIONES Y TOP K CON MÉTODOS ---");
+console.log("--- 3. AGRUPACIONES Y T  OP K CON MÉTODOS ---");
 console.log("Ventas válidas       :", ventasValidas(ventas));
+console.log("Resumen de ventas    :", ventasTotales);
 console.log("Total por ciudad ($):");
 console.table(ventasPorCiudadM(ventas));
 console.log("Unidades por producto:");
